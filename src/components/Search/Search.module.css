@@ -1,0 +1,32 @@
+.input {
+  font-family: var(--font);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: var(--text-color);
+  background-color: #fcfcfd;
+  box-shadow: 15px 20px 45px 0px rgba(233, 233, 233, 0.25);
+  border-radius: 10px;
+  border: 1px solid var(--separator-color);
+  padding: 16px 30px 16px 44px;
+  min-width: 200px;
+}
+
+.input:focus-visible {
+  border: 1px solid var(--primary-color);
+}
+
+.invalid {
+  border: 1px solid red;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.icon {
+  position: absolute;
+  left: 15px;
+  top: 35%;
+}
