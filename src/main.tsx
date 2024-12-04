@@ -1,12 +1,18 @@
-import { StrictMode } from 'react';
+import { lazy, StrictMode, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { Menu } from './pages/Menu/Menu';
 import { Cart } from './pages/Cart/Cart';
 import { Error } from './pages/Error/Error';
-import { Layout } from './layout/Layout/Layout';
+import { Layout } from './layout/Menu/MenuLayout';
 import { Product } from './pages/Product/Product';
+import axios from 'axios';
+import { PREFIX } from './helpers/API';
+import { AuthLayout } from './layout/Auth/AuthLayout';
+import { Login } from './pages/Login/Login';
+import { Register } from './pages/Register/Register';
+
+const Menu = lazy(() => import('./pages/Menu/Menu'));
 
 const router = createBrowserRouter([
   {
@@ -15,7 +21,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Menu />,
+        element: (
+          <Suspense fallback={<>Загрузка...</>}>
+            <Menu />
+          </Suspense>
+        ),
       },
       {
         path: '/cart',
@@ -24,6 +34,25 @@ const router = createBrowserRouter([
       {
         path: '/product/:id',
         element: <Product />,
+        loader: async ({ params }) => {
+          return axios
+            .get(`${PREFIX}/products/${params.id}`)
+            .then((res) => res.data);
+        },
+      },
+    ],
+  },
+  {
+    path: '/auth',
+    element: <AuthLayout />,
+    children: [
+      {
+        path: 'login',
+        element: <Login />,
+      },
+      {
+        path: 'register',
+        element: <Register />,
       },
     ],
   },
